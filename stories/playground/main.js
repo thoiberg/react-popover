@@ -57,6 +57,7 @@ class Main extends React.Component {
     const targetToggleProps = {
       className: "Target-Toggle",
       onClick: e => this.togglePopover(e),
+      tabIndex: "0",
     }
 
     const targetMoveProps = {

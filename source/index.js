@@ -494,6 +494,10 @@ class Popover extends React.Component {
       className: `Popover Popover-${standing} ${className}`,
       style: { ...coreStyle, ...style },
     }
+    const childrenWithAccessibility = React.Children.map(
+      this.props.children,
+      child => React.cloneElement(child, { tabIndex: "0" }),
+    )
 
     const popover = this.state.exited ? null : (
       <div ref={this.getContainerNodeRef} {...popoverProps}>
@@ -502,7 +506,7 @@ class Popover extends React.Component {
       </div>
     )
     return [
-      this.props.children,
+      childrenWithAccessibility,
       Platform.isClient &&
         ReactDOM.createPortal(popover, this.props.appendTarget),
     ]
