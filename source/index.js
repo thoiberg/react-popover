@@ -494,9 +494,21 @@ class Popover extends React.Component {
       className: `Popover Popover-${standing} ${className}`,
       style: { ...coreStyle, ...style },
     }
+    const copyMouseEventsForKeyboard = childProps => keyPressEvent => {
+      if (keyPressEvent.key === "Enter") {
+        childProps.onMouseOver && childProps.onMouseOver()
+      } else if (keyPressEvent.key === "Escape") {
+        childProps.onMouseOut && childProps.onMouseOut()
+      }
+    }
+
     const childrenWithAccessibility = React.Children.map(
       this.props.children,
-      child => React.cloneElement(child, { tabIndex: "0" }),
+      child =>
+        React.cloneElement(child, {
+          tabIndex: "0",
+          onKeyDown: copyMouseEventsForKeyboard(child.props),
+        }),
     )
 
     const popover = this.state.exited ? null : (
